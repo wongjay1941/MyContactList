@@ -43,6 +43,8 @@ class SecondFragment : Fragment() {
             R.id.action_save -> {
                 val newContact = Contact(binding.editTextPhone.text.toString(), binding.editTextTextPersonName.text.toString())
                 myViewModel.addContact(newContact)
+
+                findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -54,6 +56,7 @@ class SecondFragment : Fragment() {
         menu.findItem(R.id.action_settings).isVisible = false
         menu.findItem(R.id.action_about).isVisible = false
         menu.findItem(R.id.action_save).isVisible = true
+        menu.findItem(R.id.action_download).isVisible = false
     }
 
     override fun onDestroyView() {
