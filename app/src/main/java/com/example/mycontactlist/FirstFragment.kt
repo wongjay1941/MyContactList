@@ -29,7 +29,6 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private val myViewModel: ContactViewModel by activityViewModels()
-    private val requestQueue = Volley.newRequestQueue(context)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -95,6 +94,7 @@ class FirstFragment : Fragment() {
     }
 
     private fun downloadContact() {
+        val requestQueue = Volley.newRequestQueue(context)
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET,
             "https://seekt.000webhostapp.com/api/user/read.php",
@@ -104,16 +104,17 @@ class FirstFragment : Fragment() {
                     if(response != null){
                         val strResponse = response.toString()
                         val jsonResponse = JSONObject(strResponse)
-                        val jsonArray: JSONArray = jsonResponse.getJSONArray("record")
+                        val jsonArray: JSONArray = jsonResponse.getJSONArray("records")
                         val size: Int = jsonArray.length()
                         for(i in 0..size - 1){
                             val jsonContact: JSONObject = jsonArray.getJSONObject(i)
-                            val contact = Contact(jsonContact.getString("name"), jsonContact.getString("phone"))
+                            val contact = Contact(jsonContact.getString("name"), jsonContact.getString("contact"))
                             myViewModel.addContact(contact)
                         }
                     }
                 }catch(e: Exception){
                     Toast.makeText(context, "Exception: " + e.message, Toast.LENGTH_SHORT).show()
+                    Log.d("Exception: ", e.message.toString())
                 }
             },
             { error ->
