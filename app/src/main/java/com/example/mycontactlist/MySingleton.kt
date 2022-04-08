@@ -12,19 +12,20 @@ class MySingleton constructor(context: Context){
         @Volatile
         private var INSTANCE: MySingleton? = null
 
-        fun getInstance(context: Context){
-            INSTANCE?: synchronized(this){
-                INSTANCE?: MySingleton(context).also {
+        fun getInstance(context: Context): MySingleton {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: MySingleton(context).also {
                     INSTANCE = it
                 }
             }
         }
+    }
 
-        //private val requestQueue: RequestQueue by lazy {
-        //    Volley.newRequestQueue(context)
+    private val requestQueue: RequestQueue by lazy {
+        Volley.newRequestQueue(context)
+    }
 
-        //fun<T> addToRequestQueue(req: Request<T>){
-        //    requestQueue.add(req)
-        //}
+    fun<T> addToRequestQueue(req: Request<T>){
+        requestQueue.add(req)
     }
 }

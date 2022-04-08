@@ -121,7 +121,10 @@ class FirstFragment : Fragment() {
                     Log.d("First Fragment", error.message.toString())
             }
         )
-        requestQueue.add(jsonObjectRequest)
+        //requestQueue.add(jsonObjectRequest)
+
+        //Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest)
     }
 
     override fun onDestroyView() {
